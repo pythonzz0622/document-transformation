@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/template_draft.css') }}">
+</head>
+<body>
+<h1 style="text-align : center">공개 결정 통지서</h1>
+<form>
+    <table>
+        <tr>
+            <td class="td2" style="width : 70px">
+                <p class="key" style="">접수 번호</p>
+            </td>
+            <td class="td2" style="width : 70px">
+                <p class="value">{{ values["data"]["접수번호"] }}</p>
+            </td>
+            <td class="td2" style="width : 75px">
+                <p class="key">접수일</p>
+            </td>
+            <td class="td2" colspan="2">
+                <p class="value">{{ values["data"]["접수일"] }}</p>
+            </td>
+        </tr>
+        <tr style="border-bottom : 2pt double">
+            <td class="td2"><p class="key">공개 여부</p></td>
+            <td class="td2"><p class="value">{{ values["data"]["공개여부"] }}</p></td>
+            <td class="td2"><p class="key">담당자</p></td>
+            <td class="td2"><p class="value">{{ values["data"]["담당자"] }}</p></td>
+            <td class="td2"><p class="value">{{ values["data"]["전화번호"] }}</p></td>
+
+        <tr>
+            <td class="td2" colspan="5">
+                <p id="greetings">
+                    <span>{{ values["data"]["인사말"] }}</span><br>
+                </p>
+            </td>
+        </tr>
+        {% for key , value in qna_list.items() %}
+        <tr>
+            <td class="td2" rowspan={{value['qus']|length + 1}} colspan="1">
+                <p class="key">{{ key }}</p>
+            </td>
+            {% for key_i , value_i in value["qus"][0].items() %}
+            <td class="td2" rowspan="1" colspan="1">
+                    <p class="key">{{key_i}}</p>
+            </td>
+            <td class="td2" rowspan="1" colspan="3">
+                <p class="question">
+                    <span>{{value_i}}</span><br>
+                </p>
+            </td>
+            {% endfor %}
+        </tr>
+        {% for qus in value['qus'][1:] %}
+        {% for key_i , value_i in qus.items() %}
+        <td class="td2" rowspan="1" colspan="1">
+                <p class="key">{{key_i}}</p>
+        </td>
+        <td class="td2" rowspan="1" colspan="3">
+            <p class="question">
+                <span>{{value_i}}</span><br>
+            </p>
+        </td>
+        {% endfor %}
+        {% endfor %}
+        <tr class="qna_tr">
+            {% for key_j, value_j in value['ans'].items() %}
+            <td class="td2" rowspan="1" colspan="1">
+                <p class="key">{{ key_j }}</p>
+        </td>
+            <td class="td2" rowspan="1" colspan="3">
+                <p class="answer">
+                    <span>{{  value_j[0] }}</span><br>
+                </p>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        <tr>
+            <td class="td2" rowspan="1" , colspan="5">
+                <p id="closing">
+                    <span>{{ values["data"]["끝인사"] }}</span><br>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td class="td2" , rowspan="1" , colspan="1">
+                <p class="key">붙임</p>
+            </td>
+            <td class="td2" , rowspan="1" , colspan="4">
+                <p id="attached">
+                    {% for value in values['data']['붙임'] %}
+                    <span>{{ value }}</span><br>
+                    {% endfor %}
+                </p>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
