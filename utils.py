@@ -63,3 +63,18 @@ def db2df(notice_id, collection):
     df.columns = ['value']
 
     return df, json_file
+
+
+def get_notice_df(df):
+    answer_index = df.loc[df.index.str.contains('답변')].index
+    qna_list = {}
+    for ans_name in answer_index:
+        ans_num = re.findall('[0-9]', ans_name)
+        qus_list = []
+        for num in ans_num:
+            df_qus = df.loc[df.index.str.contains(str(num)) & df.index.str.contains('질의')]
+            qus_list.append({df_qus.index[0]: df_qus.values[0][0]})
+        df_ans = df.loc[df.index.str.contains(str(num)) & df.index.str.contains('답변')]
+        qna_list[f"질의 {', '.join(ans_num)} 답변"] = {'qus': qus_list, 'ans': {df_ans.index[0]: df_ans.values[0]}}
+
+        return qna_list

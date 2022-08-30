@@ -4,8 +4,14 @@
     <title>FLASK CSV File Upload</title>
 </head>
 <body>
-<h1>Upload your CSV file</h1>
-    <form method="POST" action="" enctype="multipart/form-data">
+<h1>정보 공개 통지서 업로드</h1>
+    <form method="POST" action="/notice" enctype="multipart/form-data">
+        <p><input type="file" name="file"></p>
+        <p><input type="submit" value="Submit"></p>
+    </form>
+
+<h1>국회 요구 자료 답변서 업로드</h1>
+    <form method="POST" action="/congress" enctype="multipart/form-data">
         <p><input type="file" name="file"></p>
         <p><input type="submit" value="Submit"></p>
     </form>

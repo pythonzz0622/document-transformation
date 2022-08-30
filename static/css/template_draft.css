@@ -26,6 +26,12 @@ table {
     margin :  2% 3% 3% 2%;
 }
 
+#rule {
+    text-align: left;
+    line-height: 200%;
+    margin :  2% 2% 2% 2%;
+}
+
 #closing {
     line-height: 200%;
     text-align: left;
@@ -42,7 +48,7 @@ table {
 .answer {
     text-align: left;
     line-height: 200%;
-    margin: 10px;
+    margin: 2% 3% 3% 4%;
 
 }
 

@@ -22,41 +22,39 @@ def index():
 
 
 # upload & convert excel2html
-@app.route('/', methods=['POST'])
-def uploadFiles():
+@app.route('/<string:template_type>', methods=['POST'])
+def uploadFiles(template_type):
+
     # get the uploaded file
     uploaded_file = request.files['file']
 
     # database data 삽입
-    utils.xlsx2db(uploaded_file, collection)
+    if template_type == 'notice':
+        utils.xlsx2db(uploaded_file, collection)
+
+    if template_type == 'congress':
+        print('hello')
+        pass
     return redirect(url_for('index'))
 
 
 # load notice html page
-@app.route("/notice/<string:notice_id>")
-def show_template(notice_id):
+@app.route("/<template_type>/<string:notice_id>")
+def show_template(template_type , notice_id):
     # db2 df & json
     df, json_file = utils.db2df(notice_id, collection)
 
-    # QnA 형태를 template에 적합 하게 불러 오기
-    answer_index = df.loc[df.index.str.contains('답변')].index
-    qna_list = {}
-    for ans_name in answer_index:
-        ans_num = re.findall('[0-9]', ans_name)
-        qus_list = []
-        for num in ans_num:
-            df_qus = df.loc[df.index.str.contains(str(num)) & df.index.str.contains('질의')]
-            qus_list.append({df_qus.index[0]: df_qus.values[0][0]})
-        df_ans = df.loc[df.index.str.contains(str(num)) & df.index.str.contains('답변')]
-        qna_list[f"질의 {', '.join(ans_num)} 답변"] = {'qus': qus_list, 'ans': {df_ans.index[0]: df_ans.values[0]}}
+    if template_type == 'notice':
+        # QnA 형태를 template에 적합 하게 불러 오기
+        qna_list = utils.get_notice_df(df)
+        # make template
+        template = render_template('notice.html', values=json_file, qna_list=qna_list)
+        # html file save
+        with open(f'./static/html/{notice_id}.html', 'w') as f:
+            f.write(template)
 
-    # make template
-    template = render_template('notice.html', values=json_file, qna_list=qna_list)
-
-    # html file save
-    with open(f'./static/html/{notice_id}.html', 'w') as f:
-        f.write(template)
-
+    if template_type == 'congress':
+        pass
     return template
 
 
