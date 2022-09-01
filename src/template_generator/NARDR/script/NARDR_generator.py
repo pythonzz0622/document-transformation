@@ -116,6 +116,8 @@ class Convert:
         person_id = df_person['key'].apply(lambda x: re.sub(r'[^0-9]', '', x))
         person_id = sorted(list(set(person_id)))
         rowspan = len(person_id) + 1
+
+        # 실무자 block xml code 뼈대
         xml_code = f'''                <hp:tr>
                     <hp:tc name="" header="0" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="3">
                         <hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER"
@@ -194,13 +196,15 @@ class Convert:
                         <hp:cellMargin left="510" right="510" top="510" bottom="510"/>
                     </hp:tc>
                 </hp:tr>'''
+
+        # 실무자 number 별로 iter
         for _id in person_id:
             df = df_person[df_person['key'].str.contains(_id)]
 
             depart = df[df['key'].str.contains('소속')]['value'].values[0]
             name = df[df['key'].str.contains('이름')]['value'].values[0]
             number = df[df['key'].str.contains('전화번호')]['value'].values[0]
-
+            # make 실무자 xml code
             xml_code += self.get_person_info(depart, name, number)
 
         return xml_code
@@ -585,3 +589,4 @@ if __name__ == "__main__":
     # xml code 저장
     with open(f'../output/Contents/section0.xml', 'w') as f:
         f.write(full_xml_code)
+    print('done')

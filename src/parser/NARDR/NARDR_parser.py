@@ -60,6 +60,6 @@ def get_NANDR_data(file_path):
 
 
 # if __name__ == "__main__":
-#     file_path =  '/Users/mac/PycharmProjects/document-transformation/src/template_generator/NANDR/output/Contents/section0.xml'
+#     file_path =  '/Users/mac/PycharmProjects/document-transformation/src/template_generator/NARDR/output/Contents/section0.xml'
 #     NANDR_data = get_NANDR_data(file_path)
 #     print(NANDR_data)

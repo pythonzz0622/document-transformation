@@ -41,6 +41,6 @@ def get_NDD_data(file_path):
     NDD_dict['붙임'] = soup.find('p' , id='attached').text.strip()
     return NDD_dict
 
-# if __name__== "__main__":
-#     NDD_dict = get_NDD_data('/Users/mac/PycharmProjects/document-transformation/src/template_generator/NDD/static/html/0113.html')
-#     print(NDD_dict)
+if __name__== "__main__":
+    NDD_dict = get_NDD_data('/Users/mac/PycharmProjects/document-transformation/src/template_generator/NDD/static/html/0113.html')
+    print(NDD_dict)
