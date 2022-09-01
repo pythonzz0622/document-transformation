@@ -50,6 +50,7 @@ def show_template(template_type , notice_id):
         # make template
         template = render_template('notice.html', values=json_file, qna_list=qna_list)
         # html file save
+        template = template.replace('\n' , '')
         with open(f'./static/html/{notice_id}.html', 'w') as f:
             f.write(template)
 
