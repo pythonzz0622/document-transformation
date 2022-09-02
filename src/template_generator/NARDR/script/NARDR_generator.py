@@ -549,8 +549,8 @@ class Convert:
 if __name__ == "__main__":
 
     # data 불러오기 및 class 불러오기
-    convert = Convert('../data/sample_label.xlsx')
-    df = pd.read_excel('../data/sample_label.xlsx', header=None)
+    convert = Convert('../data/sample_label_3.xlsx')
+    df = pd.read_excel('../data/sample_label_3.xlsx', header=None)
 
     # xml code block 을 만드는데 필요한 dataframe 나누기
     df.columns = ['key', 'value']
@@ -590,3 +590,7 @@ if __name__ == "__main__":
     with open(f'../output/Contents/section0.xml', 'w') as f:
         f.write(full_xml_code)
     print('done')
+
+    # hwpx파일 생성
+    os.chdir('../output')
+    os.system('zip -0 -r ../sample.hwpx $(ls)')
