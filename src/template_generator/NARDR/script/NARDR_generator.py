@@ -8,7 +8,6 @@ class Convert:
     '''
     Description :
         실무자 block , 요청 block , 붙임 block 크게 3가지 block을 구축할 수 있게 구현
-
     '''
 
     def __init__(self, data_path):
@@ -221,7 +220,7 @@ class Convert:
 
         # 요청 별로 요청 detail xml code 구성
         for number in number_list:
-            df = df_request[df_request['key'].str.contains(f'요청{number}')]
+            df = df_request[df_request['key'].str.contains(f'요청{number}') | df_request['key'].str.contains('답변')  ]
             request_number = df['key'].values[0]
             request_sentence = df['value'].values[0]
 
@@ -233,13 +232,16 @@ class Convert:
 
             # 요청 세부사항이 있을 경우
             if df_detail.empty == False:
-
                 # add 요청 detail xml code block
                 xml_code += self.get_req_detail_info(df_detail, number)
 
             # 요청에 바로 답변이 달릴 경우
             else:
-                pass
+                # add 요청 xml code block
+                df_answer = df[df['key'].str.contains(f'답변{number}')]
+                answer_number = df_answer['key'].values[0]
+                answer_sentence = df_answer['value'].values[0]
+                xml_code += self.get_requs_info(answer_number, answer_sentence)
 
         return xml_code
 
@@ -549,8 +551,8 @@ class Convert:
 if __name__ == "__main__":
 
     # data 불러오기 및 class 불러오기
-    convert = Convert('../data/sample_label_3.xlsx')
-    df = pd.read_excel('../data/sample_label_3.xlsx', header=None)
+    convert = Convert('../data/sample_label_2.xlsx')
+    df = pd.read_excel('../data/sample_label_2.xlsx', header=None)
 
     # xml code block 을 만드는데 필요한 dataframe 나누기
     df.columns = ['key', 'value']
