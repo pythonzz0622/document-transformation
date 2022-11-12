@@ -29,3 +29,6 @@ python NARDR_generator.py
 NARDR generator 문제점 
 1. 페이지가 넘어갈경우
 2. input 문장의 길이와 lineseg의 tag가 일치하지 않는 경우 
+
+
+# 내 Repo로 가져오기
